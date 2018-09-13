@@ -1,31 +1,28 @@
 {
-  "name": "react-native-crosswalk-webview-plus",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "postinstall": "node get_library.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author":           "Jordan Sexton <jordan@jordansexton.com>",
-    "contributors":     [
-        {
-            "name":  "Jordan Sexton",
-            "email": "jordan@jordansexton.com"
-        }, {
-            "name":  "Faruq Rasid",
-            "email": "github@ruqqq.sg"
-        }, {
-            "name": "Daniel Vicory",
-            "email": "dvicory@gmail.com"
-        }
-    ],
-  "license": "MIT"，
-  "peerDependencies": {
-        "react":        ">=15.3.0",
-        "react-native": ">=0.32.0"
-    },
-    "dependencies":     {
-        "node-wget": "0.4.2"
-    },
+	"name": "react-native-crosswalk-webview-plus",
+	"version": "1.0.1",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"postinstall": "node get_library.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/fantasy525/react-native-crosswalk-webview-plus.git"
+	},
+	"author": "Jordan Sexton <jordan@jordansexton.com>",
+	"contributors": [{
+		"name": "Jordan Sexton",
+		"email": "jordan@jordansexton.com"
+	}, {
+		"name": "Faruq Rasid",
+		"email": "github@ruqqq.sg"
+	}, {
+		"name": "Daniel Vicory",
+		"email": "dvicory@gmail.com"
+	}],
+	"dependencies": {
+		"node-wget": "0.4.2"
+	}
 }
