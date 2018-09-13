@@ -27,7 +27,7 @@ cp node_modules/react-native-webview-crosswalk/libs/xwalk_core_library-22.52.561
 ```gradle
 ...
 include ':CrosswalkWebView', ':app'
-project(':CrosswalkWebView').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview-crosswalk')
+project(':CrosswalkWebView').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-crosswalk-webview-plus')
 ```
 
 ### Include libs in your Android project
@@ -81,6 +81,7 @@ public class MainApplication extends Application implements ReactApplication {
 }
 ```
 ## bugs
+
 * 当我使用的时候我发现在任何页面我用键盘输入的时候不能输入任何文字，同时app会崩溃退出，我跟我的安卓朋友一起研究了这个问题。我们发现如果在MainActivity 的onCreate生命周期里面
 ``` new XWalkView(getApplicationContext(), this);```
 也就是在mainActivity初始化的时候先new 一个webview实例的话app就不会崩溃了，同时我们测试如果在onCreate里面延时10s初始化的话也会崩溃，意味着react-native可能启动mainActivity后修改了Context,导致某些webivew依赖的参数发生了变化，这些参数可能是静态的，如果我们先初始化一下让app保存最初的context,就不会崩溃了，因为你需要在mainActicity先new 一下
@@ -95,6 +96,7 @@ public class MainApplication extends Application implements ReactApplication {
         xmv.onDestroy();// must destory
     }
 ```
+* 
 ## features
 * 增加了load方法，使用方法同reload方法
 * 增加了onCrosswalkWebViewLoadFinished 监听，方便在页面加载完毕执行某些操作
