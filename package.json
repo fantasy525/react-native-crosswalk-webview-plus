@@ -4,6 +4,7 @@
 	"description": "Crosswalk's WebView for React Native on Android",
 	"main": "index.js",
 	"scripts": {
+		"postinstall": "node get_library.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
