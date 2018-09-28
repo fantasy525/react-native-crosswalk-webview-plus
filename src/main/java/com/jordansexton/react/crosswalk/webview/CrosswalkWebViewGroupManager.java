@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.facebook.react.bridge.BaseActivityEventListener;
@@ -60,19 +61,13 @@ public class CrosswalkWebViewGroupManager extends ViewGroupManager<CrosswalkWebV
         return REACT_CLASS;
     }
 
-    private static WeakReference<CrosswalkWebView> wr;
-    private static int count = 0;
-
     @Override
     public CrosswalkWebView createViewInstance (ThemedReactContext context) {
 
         CrosswalkWebView crosswalkWebView;
         Activity _activity = reactContext.getCurrentActivity();
-        if(wr!=null&& wr.get()!=null){
-            wr.get().onHostDestroy();
-        }
-        crosswalkWebView = new CrosswalkWebView(context, _activity);
-        wr = new WeakReference<>(crosswalkWebView);
+        crosswalkWebView = (CrosswalkWebView) LayoutInflater.from(_activity).inflate(R.layout.xwalk_webview, null);
+        crosswalkWebView.bindContext(context);
 
         XWalkSettings settings =crosswalkWebView.getSettings();
         settings.setDomStorageEnabled(true);//开启本地存储
@@ -102,7 +97,7 @@ public class CrosswalkWebViewGroupManager extends ViewGroupManager<CrosswalkWebV
     @Override
     public void onDropViewInstance(CrosswalkWebView view) {
         super.onDropViewInstance(view);
-        ((ThemedReactContext) view.getContext()).removeLifecycleEventListener((CrosswalkWebView) view);
+        view.unbindContext();
         view.onDestroy();
     }
 

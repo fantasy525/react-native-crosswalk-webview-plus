@@ -1,36 +1,38 @@
 package com.jordansexton.react.crosswalk.webview;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.text.TextUtils;
+import android.util.AttributeSet;
 import android.webkit.ValueCallback;
 
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.events.EventDispatcher;
+import com.facebook.react.views.webview.events.TopMessageEvent;
+
 import org.xwalk.core.JavascriptInterface;
 import org.xwalk.core.XWalkNavigationHistory;
 import org.xwalk.core.XWalkResourceClient;
 import org.xwalk.core.XWalkUIClient;
 import org.xwalk.core.XWalkView;
 
-import com.facebook.react.views.webview.events.TopMessageEvent;
-
 import javax.annotation.Nullable;
 
 class CrosswalkWebView extends XWalkView implements LifecycleEventListener {
 
-    private final Activity activity;
 
-    private final EventDispatcher eventDispatcher;
+    private EventDispatcher eventDispatcher;
 
     private final ResourceClient resourceClient;
     private final UIClient uiClient;
 
-    private @Nullable String injectedJavaScript;
+    private @Nullable
+    String injectedJavaScript;
 
     private boolean isJavaScriptInjected;
     private boolean isChoosingFile;
@@ -51,10 +53,9 @@ class CrosswalkWebView extends XWalkView implements LifecycleEventListener {
         }
     }
 
-    public CrosswalkWebView (ReactContext reactContext, Activity _activity) {
+    public CrosswalkWebView(ReactContext reactContext, Activity _activity) {
         super(reactContext, _activity);
 
-        activity = _activity;
         eventDispatcher = reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher();
         resourceClient = new ResourceClient(this);
         uiClient = new UIClient(this);
@@ -63,11 +64,35 @@ class CrosswalkWebView extends XWalkView implements LifecycleEventListener {
         this.setUIClient(uiClient);
     }
 
-    public Boolean getLocalhost () {
+    public CrosswalkWebView(Context context, AttributeSet attributes) {
+        super(context, attributes);
+
+        resourceClient = new ResourceClient(this);
+        uiClient = new UIClient(this);
+
+        this.setResourceClient(resourceClient);
+        this.setUIClient(uiClient);
+    }
+
+    ReactContext reactContext;
+
+    public void bindContext(ReactContext context) {
+        reactContext = context;
+        eventDispatcher = context.getNativeModule(UIManagerModule.class).getEventDispatcher();
+    }
+
+    public void unbindContext() {
+        if (reactContext != null) {
+            reactContext.removeLifecycleEventListener(this);
+            reactContext = null;
+        }
+    }
+
+    public Boolean getLocalhost() {
         return resourceClient.getLocalhost();
     }
 
-    public void setLocalhost (Boolean localhost) {
+    public void setLocalhost(Boolean localhost) {
         resourceClient.setLocalhost(localhost);
     }
 
@@ -98,7 +123,7 @@ class CrosswalkWebView extends XWalkView implements LifecycleEventListener {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void load (String url, String content) {
+    public void load(String url, String content) {
         isJavaScriptInjected = false;
         isChoosingFile = false;
         super.load(url, content);
@@ -135,10 +160,10 @@ class CrosswalkWebView extends XWalkView implements LifecycleEventListener {
     public void linkBridge() {
         if (messagingEnabled) {
             this.evaluateJavascript(
-                "window.originalPostMessage = window.postMessage," +
-                "window.postMessage = function(data) {" +
-                BRIDGE_NAME + ".postMessage(String(data));" +
-            "}", null);
+                    "window.originalPostMessage = window.postMessage," +
+                            "window.postMessage = function(data) {" +
+                            BRIDGE_NAME + ".postMessage(String(data));" +
+                            "}", null);
         }
     }
 
@@ -150,120 +175,118 @@ class CrosswalkWebView extends XWalkView implements LifecycleEventListener {
 
         private Boolean localhost = false;
 
-        ResourceClient (XWalkView view) {
+        ResourceClient(XWalkView view) {
             super(view);
         }
 
-        public Boolean getLocalhost () {
+        public Boolean getLocalhost() {
             return localhost;
         }
 
-        public void setLocalhost (Boolean _localhost) {
+        public void setLocalhost(Boolean _localhost) {
             localhost = _localhost;
         }
 
         @Override
-        public void onLoadFinished (XWalkView view, String url) {
-           if(!url.equals("")){
-               ((CrosswalkWebView) view).linkBridge();
-               ((CrosswalkWebView) view).callInjectedJavaScript();
+        public void onLoadFinished(XWalkView view, String url) {
+            if (!url.equals("")) {
+                ((CrosswalkWebView) view).linkBridge();
+                ((CrosswalkWebView) view).callInjectedJavaScript();
 
-               XWalkNavigationHistory navigationHistory = view.getNavigationHistory();
-               eventDispatcher.dispatchEvent(
-                   new LoadFinishedEvent(
-                       getId(),
-                       SystemClock.uptimeMillis()
-                   )
-               );
-               eventDispatcher.dispatchEvent(
-                   new NavigationStateChangeEvent(
-                       getId(),
-                       SystemClock.uptimeMillis(),
-                       view.getTitle(),
-                       false,
-                       url,
-                       navigationHistory.canGoBack(),
-                       navigationHistory.canGoForward()
-                   )
-               );
-           }
+                XWalkNavigationHistory navigationHistory = view.getNavigationHistory();
+                eventDispatcher.dispatchEvent(
+                        new LoadFinishedEvent(
+                                getId(),
+                                SystemClock.uptimeMillis()
+                        )
+                );
+                if (navigationHistory != null)
+                    eventDispatcher.dispatchEvent(
+                            new NavigationStateChangeEvent(
+                                    getId(),
+                                    SystemClock.uptimeMillis(),
+                                    view.getTitle(),
+                                    false,
+                                    url,
+                                    navigationHistory.canGoBack(),
+                                    navigationHistory.canGoForward()
+                            )
+                    );
+            }
 
         }
 
         @Override
-        public void onLoadStarted (XWalkView view, String url) {
-           if(!url.equals("")){
-            XWalkNavigationHistory navigationHistory = view.getNavigationHistory();
-            eventDispatcher.dispatchEvent(
-                new NavigationStateChangeEvent(
-                    getId(),
-                    SystemClock.uptimeMillis(),
-                    view.getTitle(),
-                    true,
-                    url,
-                    navigationHistory.canGoBack(),
-                    navigationHistory.canGoForward()
-                )
-            );
-        }
-        }
-
-        @Override
-        public void onReceivedLoadError (XWalkView view, int errorCode, String description, String failingUrl) {
-            eventDispatcher.dispatchEvent(
-                new ErrorEvent(
-                    getId(),
-                    SystemClock.uptimeMillis(),
-                    errorCode,
-                    description,
-                    failingUrl
-                )
-            );
+        public void onLoadStarted(XWalkView view, String url) {
+            if (!url.equals("")) {
+                XWalkNavigationHistory navigationHistory = view.getNavigationHistory();
+                eventDispatcher.dispatchEvent(
+                        new NavigationStateChangeEvent(
+                                getId(),
+                                SystemClock.uptimeMillis(),
+                                view.getTitle(),
+                                true,
+                                url,
+                                navigationHistory.canGoBack(),
+                                navigationHistory.canGoForward()
+                        )
+                );
+            }
         }
 
         @Override
-        public void onProgressChanged (XWalkView view, int progressInPercent) {
+        public void onReceivedLoadError(XWalkView view, int errorCode, String description, String failingUrl) {
             eventDispatcher.dispatchEvent(
-                new ProgressEvent(
-                    getId(),
-                    SystemClock.uptimeMillis(),
-                    progressInPercent
-                )
+                    new ErrorEvent(
+                            getId(),
+                            SystemClock.uptimeMillis(),
+                            errorCode,
+                            description,
+                            failingUrl
+                    )
             );
         }
 
         @Override
-        public boolean shouldOverrideUrlLoading (XWalkView view, String url) {
+        public void onProgressChanged(XWalkView view, int progressInPercent) {
+            eventDispatcher.dispatchEvent(
+                    new ProgressEvent(
+                            getId(),
+                            SystemClock.uptimeMillis(),
+                            progressInPercent
+                    )
+            );
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(XWalkView view, String url) {
             Uri uri = Uri.parse(url);
             if (uri.getScheme().equals(CrosswalkWebViewManager.JSNavigationScheme)) {
                 onLoadFinished(view, url);
                 return true;
-            }
-            else if (getLocalhost()) {
+            } else if (getLocalhost()) {
                 if (uri.getHost().equals("localhost")) {
                     return false;
-                }
-                else {
+                } else {
                     overrideUri(uri);
                     return true;
                 }
-            }
-            else if (uri.getScheme().equals("http") || uri.getScheme().equals("https") || uri.getScheme().equals("file")) {
+            } else if (uri.getScheme().equals("http") || uri.getScheme().equals("https") || uri.getScheme().equals("file")) {
                 return false;
-            }
-            else {
+            } else {
                 overrideUri(uri);
                 return true;
             }
         }
 
-        private void overrideUri (Uri uri) {
-           try {
-               Intent action = new Intent(Intent.ACTION_VIEW, uri);
-               activity.startActivity(action);
+        private void overrideUri(Uri uri) {
+            try {
+                Intent action = new Intent(Intent.ACTION_VIEW, uri);
+                action.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getContext().startActivity(action);
             } catch (Exception e) {
                 e.printStackTrace();
-           }
+            }
         }
     }
 
@@ -273,7 +296,7 @@ class CrosswalkWebView extends XWalkView implements LifecycleEventListener {
         }
 
         @Override
-        public void openFileChooser (XWalkView view, ValueCallback<Uri> uploadFile, String acceptType, String capture) {
+        public void openFileChooser(XWalkView view, ValueCallback<Uri> uploadFile, String acceptType, String capture) {
             isChoosingFile = true;
             super.openFileChooser(view, uploadFile, acceptType, capture);
         }
