@@ -21,8 +21,6 @@ import org.xwalk.core.XWalkResourceClient;
 import org.xwalk.core.XWalkUIClient;
 import org.xwalk.core.XWalkView;
 
-import java.util.Map;
-
 import javax.annotation.Nullable;
 
 class CrosswalkWebView extends XWalkView implements LifecycleEventListener {
@@ -124,10 +122,10 @@ class CrosswalkWebView extends XWalkView implements LifecycleEventListener {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void loadUrl (String url, Map<String,String> map) {
+    public void load (String url, String content) {
         isJavaScriptInjected = false;
         isChoosingFile = false;
-        super.loadUrl(url, map);
+        super.load(url, content);
     }
 
     public void setInjectedJavaScript(@Nullable String js) {

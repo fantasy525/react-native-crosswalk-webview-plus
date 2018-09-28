@@ -222,7 +222,7 @@ public class CrosswalkWebViewGroupManager extends ViewGroupManager<CrosswalkWebV
                 view.reload(XWalkView.RELOAD_NORMAL);
                 break;
             case LOAD:
-                view.loadUrl(args.getString(0), null);
+                view.load(args.getString(0),null);
                 break;
             case POST_MESSAGE:
                 try {
