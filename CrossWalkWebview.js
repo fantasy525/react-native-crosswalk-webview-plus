@@ -17,13 +17,11 @@ const JSNavigationScheme=NativeModules.JSNavigationScheme
 const WEBVIEW_REF = 'crosswalkWebView';
 
 const resolveAssetSource = require('react-native/Libraries/Image/resolveAssetSource');
-const { StatusBarManager } = NativeModules;
-console.log('height', StatusBarManager.HEIGHT)
 class MyWebview extends Component{
   static JSNavigationScheme=JSNavigationScheme;
   static propTypes={
     injectedJavaScript:      PropTypes.string,
-    localhost:               PropTypes.bool.isRequired,
+    localhost:               PropTypes.bool,
     onError:                 PropTypes.func,
     onMessage:               PropTypes.func,
     onNavigationStateChange: PropTypes.func,
@@ -61,7 +59,6 @@ class MyWebview extends Component{
     return ReactNative.findNodeHandle(this.crosswalkWebView.current);
   }
   onNavigationStateChange (event) {
-    console.log(event.nativeEvent)
     let { onNavigationStateChange } = this.props;
     if (onNavigationStateChange) {
       onNavigationStateChange(event.nativeEvent);
@@ -74,6 +71,7 @@ class MyWebview extends Component{
     }
   }
   onFinished(){
+	   this.props.onFinished&&this.props.onFinished();
   }
   onProgress (event) {
     if (this.props.onProgress) {
@@ -102,11 +100,11 @@ class MyWebview extends Component{
       null
     );
   }
-  load (data) {
+  load (url) {//just a string url,eg:"http://www.baidu.com";
     UIManager.dispatchViewManagerCommand(
       this.getWebViewHandle(),
       UIManager.CrosswalkWebView.Commands.load,
-      [String(data)]
+      [String(url)]
     );
   }
   postMessage (data) {

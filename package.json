@@ -1,8 +1,8 @@
 {
 	"name": "react-native-crosswalk-webview-plus",
-	"version": "1.1.6",
+	"version": "1.1.8",
 	"description": "Crosswalk's WebView for React Native on Android",
-	"main": "index.js",
+	"main": "CrossWalkWebview.js",
 	"scripts": {
 		"postinstall": "node get_library.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
