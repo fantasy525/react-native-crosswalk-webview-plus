@@ -17,7 +17,7 @@ Crosswalk's WebView for React Native on Android.
 ```shell
 npm install react-native-crosswalk-webview-plus --save，或者
 yarn add react-native-crosswalk-webview-plus
-拷贝 node_modules/react-native-webview-crosswalk/libs/xwalk_core_library_beta-23.53.589.4-arm.aar 到你的安卓项目 android/app/libs下，没有libs就创建一个libs文件夹
+拷贝 node_modules/react-native-webview-crosswalk/libs/xwalk_core_library-23.53.589.4-arm.aar 到你的安卓项目 android/app/libs下，没有libs就创建一个libs文件夹
 ```
 
 ### Include module in your Android project
@@ -54,7 +54,7 @@ allprojects {
 ...
 dependencies {
   ...
-  implementation (name: "/xwalk_core_library_beta-23.53.589.4-arm", ext: "aar")     // <--- add this line
+  implementation (name: "xwalk_core_library-23.53.589.4-arm", ext: "aar")     // <--- add this line
   implementation project(':CrosswalkWebView')                             // <--- add this line
 }
 ```
