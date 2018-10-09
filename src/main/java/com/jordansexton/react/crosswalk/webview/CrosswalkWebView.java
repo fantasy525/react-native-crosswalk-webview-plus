@@ -219,7 +219,7 @@ class CrosswalkWebView extends XWalkView implements LifecycleEventListener {
         public void onLoadStarted (XWalkView view, String url) {
            if(!url.equals("")){
             XWalkNavigationHistory navigationHistory = view.getNavigationHistory();
-            if(null == navigationHistory) return;
+            if(navigationHistory!=null)
             eventDispatcher.dispatchEvent(
                 new NavigationStateChangeEvent(
                     getId(),
