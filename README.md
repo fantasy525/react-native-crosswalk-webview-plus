@@ -80,12 +80,21 @@ public class MainApplication extends Application implements ReactApplication {
 
 }
 ```
+# 重要更新
+在rn0.57.1版本 任何页面我用键盘输入的时候不能输入任何文字，同时app会崩溃退出 这个bug依旧存在，但是只发生在开发期间，离线打包后不存在，目前可以这样解决
+在MainActivity的onCreate方法中加入这些代码
+```java
+ protected void onCreate(Bundle savedInstanceState) {
+        new XWalkView(getApplicationContext()).onDestroy();//增加这行代码
+        super.onCreate(savedInstanceState);
+    }
+```
 ## bugs
 
 * ~~当我使用的时候我发现在任何页面我用键盘输入的时候不能输入任何文字，同时app会崩溃退出，我跟我的安卓朋友一起研究了这个问题。我们发现如果在MainActivity 的onCreate生命周期里面``` new XWalkView(getApplicationContext(), this);```
 也就是在mainActivity初始化的时候先new 一个webview实例的话app就不会崩溃了，同时我们测试如果在onCreate里面延时10s初始化的话也会崩溃，意味着react-native可能启动mainActivity后修改了Context,导致某些webivew依赖的参数发生了变化，这些参数可能是静态的，如果我们先初始化一下让app保存最初的context,就不会崩溃了，因为你需要在mainActicity先new 一下~~
 * 在react-native 0.57版本里面修复了上面的bug,同时这个webview还一直存在一个偶尔出现的空指针异常bug,时而有，时而没有，经过安卓同学的排查发现是每次初始化时有问题，所以增加了xml布局文件来解决这个问题
-* 
+ 
 ## features
 * 增加了load方法，使用方法同reload方法
 * 增加了onCrosswalkWebViewLoadFinished 监听，方便在页面加载完毕执行某些操作
