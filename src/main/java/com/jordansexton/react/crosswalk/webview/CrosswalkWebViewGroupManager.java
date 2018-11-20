@@ -3,35 +3,30 @@ package com.jordansexton.react.crosswalk.webview;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.facebook.react.bridge.BaseActivityEventListener;
+import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.common.annotations.VisibleForTesting;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
-import org.xwalk.core.XWalkNavigationHistory;
-import org.xwalk.core.XWalkSettings;
-import org.xwalk.core.XWalkCookieManager;
-import org.xwalk.core.XWalkView;
-
-import org.json.JSONObject;
-import org.json.JSONException;
-
 import com.facebook.react.views.webview.events.TopMessageEvent;
 
-import javax.annotation.Nullable;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xwalk.core.XWalkCookieManager;
+import org.xwalk.core.XWalkNavigationHistory;
+import org.xwalk.core.XWalkSettings;
+import org.xwalk.core.XWalkView;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Nullable;
 
 public class CrosswalkWebViewGroupManager extends ViewGroupManager<CrosswalkWebView> {
 
