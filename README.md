@@ -157,8 +157,8 @@ export default class App extends Component<Props> {
     return (
       <View style={styles.container}>
       	<View >
-					<RCTCrossWalkWebView style={{width:500,flex:1}}  source={{uri:'https://www.baidu.com'}}/>
-				</View>
+          <RCTCrossWalkWebView style={{width:500,flex:1}}  source={{uri:'https://www.baidu.com'}}/>
+	</View>
       </View>
     );
   }
