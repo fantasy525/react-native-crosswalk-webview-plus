@@ -17,7 +17,7 @@ const JSNavigationScheme=NativeModules.JSNavigationScheme
 const WEBVIEW_REF = 'crosswalkWebView';
 
 const resolveAssetSource = require('react-native/Libraries/Image/resolveAssetSource');
-class MyWebview extends Component{
+class RCTCrossWalkWebView extends Component{
   static JSNavigationScheme=JSNavigationScheme;
   static propTypes={
     injectedJavaScript:      PropTypes.string,
@@ -130,11 +130,9 @@ class MyWebview extends Component{
       onCrosswalkWebViewLoadFinished:this.onFinished.bind(this),
       onCrosswalkWebViewProgress: this.onProgress.bind(this)
     });
-    //key 是必须得，否则url时界面不会更新
     return (
       <NativeCrosswalkWebView
         { ...nativeProps }
-        key={source.uri}
         ref={this.crosswalkWebView }
         source={ resolveAssetSource(source) }
       />
@@ -146,9 +144,9 @@ class MyWebview extends Component{
  * 此处requireNativeComponent的第一个参数为源码corssWalkWebViewGroupManager 中
  * public static final String REACT_CLASS = "CrosswalkWebView"; 的值，不能随便写，否则会提示找不到模块
  */
-const NativeCrosswalkWebView = requireNativeComponent('CrosswalkWebView', MyWebview, {
+const NativeCrosswalkWebView = requireNativeComponent('CrosswalkWebView', RCTCrossWalkWebView, {
   nativeOnly: {
     messagingEnabled: PropTypes.bool,
   },
 });
-export default MyWebview;
+export default RCTCrossWalkWebView;
