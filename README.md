@@ -83,19 +83,56 @@ public class MainApplication extends Application implements ReactApplication {
 
 }
 ```
-# Note
-You should add the following code to MainActivity onCreate lifecyle
+# Notes
+ In development mode(yarn start) ,You should add the following code to MainActivity onCreate lifecyle
 ```
  protected void onCreate(Bundle savedInstanceState) {
         // initialization first and onDestroy immediately
-        new XWalkView(getApplicationContext()).onDestroy();//add this line
+        new XWalkView(getApplicationContext()).onDestroy();// just add this line for RN dev mode,and release mode you can delete it
         super.onCreate(savedInstanceState);
     }
 ```
-Because when you open the WebView page input box to enter text, app will crash,may be activity change ApplicationContext when activity onResume,so we need init XWalkView on Create,some 
-variables may be static ,so it get value onCreate,and It's exactly what XWalkView runtime need. and I hope react-native can fix this for later version
+
+Because  when you open the WebView page input box to enter text, app will crash,may be activity change ApplicationContext when activity onResume,so we need init XWalkView on Create,some 
+variables may be static ,so it get value onCreate,and It's exactly what XWalkView runtime need. and I hope react-native can fix this for later version,and it happend in development mode,release mode is OK,so you can delete  in release mode
 ## features
 1.props:
+```javascript
+    injectedJavaScript:      PropTypes.string,
+    localhost:               PropTypes.bool,
+    onError:                 PropTypes.func,
+    onMessage:               PropTypes.func,
+    onNavigationStateChange: PropTypes.func,
+    onProgress:              PropTypes.func,
+    allowUniversalAccessFromFileURLs: PropTypes.bool,
+    domStorageEnabled: PropTypes.bool,
+    mediaPlaybackRequiresUserAction:PropTypes.bool,
+    javaScriptEnabled:PropTypes.bool,
+    userAgent:PropTypes.string,
+    scalesPageToFit:PropTypes.bool,
+    saveFormDataDisabled:PropTypes.bool,
+    source:                  PropTypes.oneOfType([
+      PropTypes.shape({
+        uri: PropTypes.string,  // URI to load in WebView
+      }),
+      PropTypes.shape({
+        html: PropTypes.string, // static HTML to load in WebView
+      }),
+      PropTypes.number,           // used internally by React packager
+    ]),
+    url:PropTypes.string,
+```
+methods:
+```javascript
+goBack(){}
+goForward(){}
+reload(){}
+load(url:string){}
+postMessage(data:any){}
+```
+
+
+
 
 ## License
 MIT
