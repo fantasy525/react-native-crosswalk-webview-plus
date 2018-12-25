@@ -1,6 +1,6 @@
 {
 	"name": "react-native-crosswalk-webview-plus",
-	"version": "1.2.1",
+	"version": "1.2.2",
 	"description": "Crosswalk's WebView for React Native on Android",
 	"main": "index.js",
 	"scripts": {
@@ -11,31 +11,35 @@
 		"type": "git",
 		"url": "git+https://github.com/fantasy525/react-native-crosswalk-webview-plus.git"
 	},
-	 "keywords":[
-        "react",
-        "native",
-        "react native",
-        "webview",
-        "crosswalk",
-        "xwalk",
-        "android"
-    ],
+	"keywords": [
+		"react",
+		"native",
+		"react native",
+		"webview",
+		"crosswalk",
+		"xwalk",
+		"android"
+	],
 	"author": "Jordan Sexton <jordan@jordansexton.com>",
-	 "license":"MIT",
-	"contributors": [{
-		"name": "Jordan Sexton",
-		"email": "jordan@jordansexton.com"
-	}, {
-		"name": "Faruq Rasid",
-		"email": "github@ruqqq.sg"
-	}, {
-		"name": "Daniel Vicory",
-		"email": "dvicory@gmail.com"
-	}],
+	"license": "MIT",
+	"contributors": [
+		{
+			"name": "Jordan Sexton",
+			"email": "jordan@jordansexton.com"
+		},
+		{
+			"name": "Faruq Rasid",
+			"email": "github@ruqqq.sg"
+		},
+		{
+			"name": "Daniel Vicory",
+			"email": "dvicory@gmail.com"
+		}
+	],
 	"peerDependencies": {
-        "react":        ">=16.3.1",
-        "react-native": ">=0.55.4"
-    },
+		"react": ">=16.3.1",
+		"react-native": ">=0.55.4"
+	},
 	"dependencies": {
 		"node-wget": "0.4.2"
 	}
