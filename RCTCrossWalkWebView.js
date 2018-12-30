@@ -149,4 +149,4 @@ const NativeCrosswalkWebView = requireNativeComponent('CrosswalkWebView', RCTCro
     messagingEnabled: PropTypes.bool,
   },
 });
-export default RCTCrossWalkWebView;
+export {RCTCrossWalkWebView} ;
