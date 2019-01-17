@@ -84,7 +84,7 @@ public class MainApplication extends Application implements ReactApplication {
 }
 ```
 # Notes
- In development mode(yarn start) ,You should add the following code to MainActivity onCreate lifecyle
+ * In development mode(yarn start) ,You should add the following code to MainActivity onCreate lifecyle
 ```
  protected void onCreate(Bundle savedInstanceState) {
         // initialization first and onDestroy immediately
@@ -95,6 +95,13 @@ public class MainApplication extends Application implements ReactApplication {
 
 Because  when you open the WebView page input box to enter text, app will crash,may be activity change ApplicationContext when activity onResume,so we need init XWalkView on Create,some 
 variables may be static ,so it get value onCreate,and It's exactly what XWalkView runtime need. and I hope react-native can fix this for later version,and it happend in development mode,release mode is OK,so you can delete  in release mode
+
+* The crosswalk.arr file I use only supports armeabi-v7a or armeabi  32 bit CPU,
+If you got this error 
+```java
+Java. Lang. RuntimeException: both Please have your activity extend XWalkActivity for Shared mode
+```
+maybe you should use others  armeabi-v7a or armeabi cpu phone
 ## features
 1.props:
 ```javascript
