@@ -3,6 +3,7 @@ package com.jordansexton.react.crosswalk.webview;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -65,7 +66,7 @@ public class CrosswalkWebViewGroupManager extends ViewGroupManager<CrosswalkWebV
         crosswalkWebView.bindContext(context);
 
         XWalkSettings settings =crosswalkWebView.getSettings();
-        settings.setDomStorageEnabled(true);//开启本地存储
+        settings.setDomStorageEnabled(true);// open local storage
         settings.setAllowFileAccess(false);
         settings.setAllowContentAccess(false);
         settings.setDatabaseEnabled(true);
@@ -79,7 +80,7 @@ public class CrosswalkWebViewGroupManager extends ViewGroupManager<CrosswalkWebV
         crosswalkWebView.setLayoutParams(
             new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-        // 启用cookies
+        // open cookies
         XWalkCookieManager mCookieManager = new XWalkCookieManager();
         mCookieManager.setAcceptCookie(true);
         mCookieManager.setAcceptFileSchemeCookies(true);
@@ -97,7 +98,7 @@ public class CrosswalkWebViewGroupManager extends ViewGroupManager<CrosswalkWebV
 		 new Handler().post(new Runnable() {
             @Override
             public void run() {
-				if(reactContext.getCurrentActivity==null) return;
+				if(reactContext.getCurrentActivity()==null) return;
                 reactContext.getCurrentActivity().findViewById(android.R.id.content).requestLayout();
             }
         });
