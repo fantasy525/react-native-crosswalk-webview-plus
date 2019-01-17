@@ -97,6 +97,7 @@ public class CrosswalkWebViewGroupManager extends ViewGroupManager<CrosswalkWebV
 		 new Handler().post(new Runnable() {
             @Override
             public void run() {
+				if(reactContext.getCurrentActivity==null) return;
                 reactContext.getCurrentActivity().findViewById(android.R.id.content).requestLayout();
             }
         });
