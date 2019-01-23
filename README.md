@@ -84,13 +84,14 @@ public class MainApplication extends Application implements ReactApplication {
 }
 ```
 # Notes
- * In development mode(yarn start) ,You should add the following code to MainActivity onCreate lifecyle
+ * In development mode(yarn start) ,You should add the following code to MainApplication.java onCreate lifecyle
 ```
- protected void onCreate(Bundle savedInstanceState) {
-        // initialization first and onDestroy immediately
-        new XWalkView(getApplicationContext()).onDestroy();// just add this line for RN dev mode,and release mode you can delete it
-        super.onCreate(savedInstanceState);
-    }
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    SoLoader.init(this, /* native exopackage */ false);
+    new XWalkView(this).onDestroy();  // just add this line for RN dev mode,and release mode you can delete it
+  }
 ```
 
 Because  when you open the WebView page input box to enter text, app will crash,may be activity change ApplicationContext when activity onResume,so we need init XWalkView on Create,some 
