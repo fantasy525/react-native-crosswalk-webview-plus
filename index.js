@@ -1,2 +1,2 @@
-import RCTCrossWalkWebView from './RCTCrossWalkWebView'
+import {RCTCrossWalkWebView} from './RCTCrossWalkWebView'
 export {RCTCrossWalkWebView}
