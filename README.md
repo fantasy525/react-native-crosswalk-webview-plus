@@ -1,7 +1,9 @@
 # react-native-crosswalk-webview-plus
 Crosswalk's WebView for React Native on Android. 
 
-#### thanks [jordansexton](https://github.com/jordansexton),He developed the original project,but  He hasn't been updated for two years so far (2018.9),and there are some bugs...,so I fix them and I add some new features
+#### thanks [jordansexton](https://github.com/jordansexton),He developed the original project,but  He hasn't been updated for two years so far (2018.9),and there are some bugs...,so I fix them and I add some new features.
+
+but also,I'm so sorry,I have started to develop the app using Flutter,So I'm not maintaining the library anymore,thank you!
 
 [![npm licence](http://img.shields.io/npm/l/react-native-webview-crosswalk.svg?style=flat-square)](https://npmjs.org/package/react-native-webview-crosswalk "View this project on npm")
 
